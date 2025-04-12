@@ -15,7 +15,7 @@ done
 
 for (( c=1; c<=4; c++ ))
 do
-        ../../record-trace -o alexnet_${c}_pipe -- ./darknet classifier predict cfg/imagenet1k.data cfg/alexnet.cfg alexnet.weights data/dog.jpg -p1 &
+        ../../record-trace -o alexnet_${c}_pipe -- ./darknet classifier predict cfg/imagenet1k.data cfg/alexnet.cfg alexnet.weights data/dog.png &
 	
 	# Uncomment appropriate DNN -- AlexNet, ResNet 18/34/50, VGG-16, RNN-3, and YOLOv3-Tiny.
 
@@ -27,7 +27,7 @@ do
 	#../../record-trace -o rnn_${c}_pipe --roi -- ./darknet rnn generate cfg/rnn.cfg grrm.weights -srand 0 -seed JON -p1 &
 done
 
-../../run-sniper -v -s memTherm_core -c gainestown_3Dmem -n 4 --traces=alexnet_1_pipe.sift,alexnet_2_pipe.sift,alexnet_3_pipe.sift,alexnet_4_pipe.sift 
+../../run-sniper -v -s memTherm_core -c gainestown_2_5D -n 4 --traces=alexnet_1_pipe.sift,alexnet_2_pipe.sift,alexnet_3_pipe.sift,alexnet_4_pipe.sift
 
 # Uncomment appropriate DNN -- AlexNet, ResNet 18/34/50, VGG-16, RNN-3, and YOLOv3-Tiny.
 

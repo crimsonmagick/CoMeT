@@ -13,6 +13,37 @@
 #include "dvfspolicy.h"
 #include "performance_counters.h"
 
+//
+// class DVFSOndemand : public DVFSPolicy {
+// public:
+//     DVFSOndemand(
+//         const PerformanceCounters *performanceCounters,
+//         int numberOfCores,
+//         int minFrequency,
+//         int maxFrequency,
+//         int frequencyStepSize,
+//         float upThreshold,
+//         float downThreshold,
+//         float dtmCriticalTemperature,
+//         float dtmRecoveredTemperature);
+//     virtual std::vector<int> getFrequencies(const std::vector<int> &oldFrequencies, const std::vector<bool> &activeCores);
+//
+// private:
+//     const PerformanceCounters *performanceCounters;
+//
+//     unsigned int numberOfCores;
+//     int minFrequency;
+//     int maxFrequency;
+//     int frequencyStepSize;
+//     float upThreshold;
+//     float downThreshold;
+//     float dtmCriticalTemperature;
+//     float dtmRecoveredTemperature;
+//
+//     bool in_throttle_mode = false;
+//     bool throttle();
+// };
+
 class DVFSOndemand : public DVFSPolicy {
 public:
     DVFSOndemand(
@@ -25,12 +56,14 @@ public:
         float downThreshold,
         float dtmCriticalTemperature,
         float dtmRecoveredTemperature);
-    virtual std::vector<int> getFrequencies(const std::vector<int> &oldFrequencies, const std::vector<bool> &activeCores);
+
+    virtual std::vector<int> getFrequencies(const std::vector<int> &oldFrequencies,
+        const std::vector<bool> &activeCores);
 
 private:
     const PerformanceCounters *performanceCounters;
-
-    unsigned int numberOfCores;
+    unsigned int coreRows;
+    unsigned int coreColumns;
     int minFrequency;
     int maxFrequency;
     int frequencyStepSize;
@@ -38,8 +71,8 @@ private:
     float downThreshold;
     float dtmCriticalTemperature;
     float dtmRecoveredTemperature;
-
     bool in_throttle_mode = false;
+
     bool throttle();
 };
 

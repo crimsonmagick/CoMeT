@@ -14,21 +14,29 @@
 Scheduler* Scheduler::create(ThreadManager *thread_manager)
 {
    String type = Sim()->getCfg()->getString("scheduler/type");
+   std::cout << "[MANGO] I SURE LIKE CREATING MY THREAD MANAGER WITH scheduler/type=" << type << std::endl;
 
-   if (type == "static")
+   if (type == "static") {
       return new SchedulerStatic(thread_manager);
-   else if (type == "pinned")
+   }
+   else if (type == "pinned") {
       return new SchedulerPinned(thread_manager);
-   else if (type == "roaming")
+   }
+   else if (type == "roaming") {
       return new SchedulerRoaming(thread_manager);
-   else if (type == "big_small")
+   }
+   else if (type == "big_small") {
       return new SchedulerBigSmall(thread_manager);
-   else if (type == "sequential")
-       return new SchedulerSequential(thread_manager);
-	else if (type == "open")
-		return new SchedulerOpen(thread_manager);
-   else
+   }
+   else if (type == "sequential") {
+      return new SchedulerSequential(thread_manager);
+   }
+	else if (type == "open") {
+	   return new SchedulerOpen(thread_manager);
+	}
+   else {
       LOG_PRINT_ERROR("Unknown scheduler type %s", type.c_str());
+   }
 }
 
 Scheduler::Scheduler(ThreadManager *thread_manager)
