@@ -171,6 +171,10 @@ void SchedulerOpen::initMappingPolicy(String policyName) {
  */
 void SchedulerOpen::initDVFSPolicy(String policyName) {
 	cout << "[Scheduler] [Info]: Initializing DVFS policy" << endl;
+	float upThreshold = Sim()->getCfg()->getFloat("scheduler/open/dvfs/ondemand/up_threshold");
+	float downThreshold = Sim()->getCfg()->getFloat("scheduler/open/dvfs/ondemand/down_threshold");
+	float dtmCriticalTemperature = Sim()->getCfg()->getFloat("scheduler/open/dvfs/ondemand/dtm_cricital_temperature");
+	float dtmRecoveredTemperature = Sim()->getCfg()->getFloat("scheduler/open/dvfs/ondemand/dtm_recovered_temperature");
 	if (policyName == "off") {
 		dvfsPolicy = NULL;
 	} else if (policyName == "constFreq") {
@@ -178,10 +182,6 @@ void SchedulerOpen::initDVFSPolicy(String policyName) {
 		int idleCoreFreq = (int)(1000 * Sim()->getCfg()->getFloat("scheduler/open/dvfs/constFreq/idle_core_freq") + 0.5);
 		dvfsPolicy = new DVFSConstFreq(performanceCounters, numberOfCores, activeCoreFreq, idleCoreFreq);
 	} else if (policyName == "ondemand") {
-		float upThreshold = Sim()->getCfg()->getFloat("scheduler/open/dvfs/ondemand/up_threshold");
-		float downThreshold = Sim()->getCfg()->getFloat("scheduler/open/dvfs/ondemand/down_threshold");
-		float dtmCriticalTemperature = Sim()->getCfg()->getFloat("scheduler/open/dvfs/ondemand/dtm_cricital_temperature");
-		float dtmRecoveredTemperature = Sim()->getCfg()->getFloat("scheduler/open/dvfs/ondemand/dtm_recovered_temperature");
 		dvfsPolicy = new DVFSOndemand(
 			performanceCounters,
 			numberOfCores,
@@ -193,7 +193,19 @@ void SchedulerOpen::initDVFSPolicy(String policyName) {
 			dtmCriticalTemperature,
 			dtmRecoveredTemperature
 		);
-	} //else if (policyName ="XYZ") {... } //Place to instantiate a new DVFS logic. Implementation is put in "policies" package.
+	} else if (policyName == "ondemand_comet") {
+			dvfsPolicy = new DVFSOndemand(
+			performanceCounters,
+			numberOfCores,
+			minFrequency,
+			maxFrequency,
+			frequencyStepSize,
+			upThreshold,
+			downThreshold,
+			dtmCriticalTemperature,
+			dtmRecoveredTemperature
+		);
+	}
 	else {
 		cout << "\n[Scheduler] [Error]: Unknown DVFS Algorithm" << endl;
  		exit (1);

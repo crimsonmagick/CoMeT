@@ -1,21 +1,22 @@
-#ifndef __DVFS_ONDEMAND_H
-#define __DVFS_ONDEMAND_H
+#ifndef __DVFS_ONDEMAND_COMET_H
+#define __DVFS_ONDEMAND_COMET_H
 
 #include <vector>
 #include "dvfspolicy.h"
 #include "performance_counters.h"
 
-class DVFSOndemand : public DVFSPolicy {
+class DVFSOndemandComet : public DVFSPolicy {
 public:
-    DVFSOndemand(
+    DVFSOndemandComet(
         const PerformanceCounters *performanceCounters,
-        int numberOfCores,
+        int coreRows,
+        int coreColumns,
         int minFrequency,
         int maxFrequency,
         int frequencyStepSize,
         float upThreshold,
         float downThreshold,
-        float dtmCriticalTemperature,
+      float dtmCriticalTemperature,
         float dtmRecoveredTemperature);
 
     virtual std::vector<int> getFrequencies(const std::vector<int> &oldFrequencies,
